@@ -191,6 +191,7 @@ export default function AddEmployeeWizardPage() {
             toast.success("Draft saved", { position: "top-center" })
         }, 600)
     }
+    
 
     // header titles
     const titles = ["Basic Details", "Employee Details", "Bank Details", "Confirmation"]
