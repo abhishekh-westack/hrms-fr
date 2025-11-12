@@ -58,7 +58,7 @@ export default function ShiftsPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Shifts</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Shift</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Manage work shifts such as Morning, Evening, or Night.
             </p>
@@ -72,7 +72,7 @@ export default function ShiftsPage() {
               setIsDialogOpen(true)
             }}
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Shift
+            <Plus className="w-4 h-4 mr-2" /> Add New
           </Button>
         </div>
 

@@ -16,6 +16,18 @@ export default function AdditionalInfo({ formik }: Props) {
       : "h-11"
   }
 
+  // ✅ Check if all local address fields are filled
+  const isLocalAddressComplete = [
+    "localAddressLine",
+    "localCity",
+    "localState",
+    "localPincode",
+    "localCountry",
+  ].every((field) => {
+    const value = formik.values[field]
+    return value && value.trim() !== ""
+  })
+
   return (
     <section>
       {/* ================= ADDRESS DETAILS ================= */}
@@ -29,7 +41,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">Address Line</Label>
             <Input
               name="localAddressLine"
-              value={formik.values.localAddressLine}
+              value={formik.values.localAddressLine ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("localAddressLine")}
             />
@@ -39,7 +51,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">City</Label>
             <Input
               name="localCity"
-              value={formik.values.localCity}
+              value={formik.values.localCity ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("localCity")}
             />
@@ -49,7 +61,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">State</Label>
             <Input
               name="localState"
-              value={formik.values.localState}
+              value={formik.values.localState ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("localState")}
             />
@@ -59,7 +71,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">Pincode</Label>
             <Input
               name="localPincode"
-              value={formik.values.localPincode}
+              value={formik.values.localPincode ?? ""}
               onChange={(e) =>
                 formik.setFieldValue(
                   "localPincode",
@@ -74,7 +86,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">Country</Label>
             <Input
               name="localCountry"
-              value={formik.values.localCountry}
+              value={formik.values.localCountry ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("localCountry")}
             />
@@ -88,15 +100,20 @@ export default function AdditionalInfo({ formik }: Props) {
           <input
             type="checkbox"
             id="sameAsLocal"
-            checked={formik.values.sameAsLocal}
+            checked={formik.values.sameAsLocal ?? false}
+            disabled={!isLocalAddressComplete}
             onChange={(e) =>
               formik.setFieldValue("sameAsLocal", e.target.checked)
             }
-            className="w-4 h-4 accent-blue-600"
+            className={`w-4 h-4 accent-blue-600 ${
+              !isLocalAddressComplete ? "cursor-not-allowed opacity-50" : ""
+            }`}
           />
           <label
             htmlFor="sameAsLocal"
-            className="text-sm cursor-pointer select-none"
+            className={`text-sm select-none ${
+              !isLocalAddressComplete ? "text-gray-400" : "cursor-pointer"
+            }`}
           >
             Residential Address same as Local Address
           </label>
@@ -108,7 +125,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">Address Line</Label>
             <Input
               name="residentialAddressLine"
-              value={formik.values.residentialAddressLine}
+              value={formik.values.residentialAddressLine ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("residentialAddressLine")}
             />
@@ -118,7 +135,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">City</Label>
             <Input
               name="residentialCity"
-              value={formik.values.residentialCity}
+              value={formik.values.residentialCity ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("residentialCity")}
             />
@@ -128,7 +145,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">State</Label>
             <Input
               name="residentialState"
-              value={formik.values.residentialState}
+              value={formik.values.residentialState ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("residentialState")}
             />
@@ -138,7 +155,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">Pincode</Label>
             <Input
               name="residentialPincode"
-              value={formik.values.residentialPincode}
+              value={formik.values.residentialPincode ?? ""}
               onChange={(e) =>
                 formik.setFieldValue(
                   "residentialPincode",
@@ -153,7 +170,7 @@ export default function AdditionalInfo({ formik }: Props) {
             <Label className="font-medium">Country</Label>
             <Input
               name="residentialCountry"
-              value={formik.values.residentialCountry}
+              value={formik.values.residentialCountry ?? ""}
               onChange={formik.handleChange}
               className={getInputClasses("residentialCountry")}
             />
@@ -172,7 +189,7 @@ export default function AdditionalInfo({ formik }: Props) {
           <Label className="font-medium">Contact Person Name</Label>
           <Input
             name="emergencyContactName"
-            value={formik.values.emergencyContactName}
+            value={formik.values.emergencyContactName ?? ""}
             onChange={formik.handleChange}
             className={getInputClasses("emergencyContactName")}
           />
@@ -182,7 +199,7 @@ export default function AdditionalInfo({ formik }: Props) {
           <Label className="font-medium">Relationship</Label>
           <Input
             name="emergencyRelationship"
-            value={formik.values.emergencyRelationship}
+            value={formik.values.emergencyRelationship ?? ""}
             onChange={formik.handleChange}
             className={getInputClasses("emergencyRelationship")}
           />
@@ -192,7 +209,7 @@ export default function AdditionalInfo({ formik }: Props) {
           <Label className="font-medium">Mobile Number</Label>
           <Input
             name="emergencyMobile"
-            value={formik.values.emergencyMobile}
+            value={formik.values.emergencyMobile ?? ""}
             onChange={(e) =>
               formik.setFieldValue(
                 "emergencyMobile",
@@ -207,7 +224,7 @@ export default function AdditionalInfo({ formik }: Props) {
           <Label className="font-medium">Alternate Contact Number</Label>
           <Input
             name="emergencyAlternateNumber"
-            value={formik.values.emergencyAlternateNumber}
+            value={formik.values.emergencyAlternateNumber ?? ""}
             onChange={(e) =>
               formik.setFieldValue(
                 "emergencyAlternateNumber",
@@ -222,7 +239,7 @@ export default function AdditionalInfo({ formik }: Props) {
           <Label className="font-medium">Address</Label>
           <Input
             name="emergencyAddress"
-            value={formik.values.emergencyAddress}
+            value={formik.values.emergencyAddress ?? ""}
             onChange={formik.handleChange}
             className={getInputClasses("emergencyAddress")}
           />

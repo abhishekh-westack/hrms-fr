@@ -22,14 +22,13 @@ import {
 
 import BranchFormDialog from "@/components/branch/BranchFormDialog"
 
-const defaultBranches = [
-  { id: 1, name: "Information Technology", employeeCount: 120 },
-  { id: 2, name: "Mechanical Engineering", employeeCount: 90 },
-  { id: 3, name: "Civil Engineering", employeeCount: 75 },
+const branchesData = [
+  { id: 1, name: "Pune Office", employeeCount: 25 },
+  { id: 2, name: "Mumbai Office", employeeCount: 40 },
 ]
 
 export default function BranchesPage() {
-  const [branches, setBranches] = useState(defaultBranches)
+  const [branches, setBranches] = useState(branchesData)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedBranch, setSelectedBranch] = useState<any>(null)
   const [dialogMode, setDialogMode] = useState<"create" | "edit">("create")
@@ -65,9 +64,9 @@ export default function BranchesPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Academic Branches</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Branch</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Manage academic branches like IT, Mechanical, Civil, etc.
+              Manage your organization’s branches.
             </p>
           </div>
 
@@ -79,7 +78,7 @@ export default function BranchesPage() {
               setIsDialogOpen(true)
             }}
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Branch
+            <Plus className="w-4 h-4 mr-2" /> Add New
           </Button>
         </div>
 
@@ -90,7 +89,7 @@ export default function BranchesPage() {
               <thead>
                 <tr className="border-b border-gray-100 bg-slate-50/40">
                   <th className="px-5 py-4 text-left font-medium text-gray-500 text-sm">
-                    Branch Name
+                    Name
                   </th>
                   <th className="px-5 py-4 text-center font-medium text-gray-500 text-sm">
                     Employee Count
@@ -100,6 +99,7 @@ export default function BranchesPage() {
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 {branches.map((branch) => (
                   <tr

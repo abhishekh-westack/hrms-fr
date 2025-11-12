@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useRef, useEffect } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -10,6 +10,15 @@ type Props = {
 }
 
 export default function BasicDetails({ formik }: Props) {
+  const dobInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    // Set the default date to show in calendar when empty
+    if (dobInputRef.current && !formik.values.dob) {
+      dobInputRef.current.setAttribute('value', '2007-01-01')
+    }
+  }, [formik.values.dob])
+
   const getInputClasses = (fieldName: string) => {
     const hasValue = formik.values[fieldName as keyof typeof formik.values]
     return hasValue
@@ -22,6 +31,15 @@ export default function BasicDetails({ formik }: Props) {
     return hasValue
       ? "h-11 bg-blue-50 text-blue-900 border-blue-300"
       : "h-11"
+  }
+
+  const handleDobFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Set default value when focusing empty field
+    if (!formik.values.dob && e.target.showPicker) {
+      e.target.value = '2007-01-01'
+      e.target.showPicker()
+      e.target.value = ''
+    }
   }
 
   return (
@@ -76,7 +94,16 @@ export default function BasicDetails({ formik }: Props) {
 
         <div className="space-y-2">
           <Label className="font-medium">Date of Birth<span className="text-red-500">*</span></Label>
-          <Input type="date" name="dob" value={formik.values.dob} onChange={formik.handleChange} className={getInputClasses("dob")} />
+          <Input 
+            ref={dobInputRef}
+            type="date" 
+            name="dob" 
+            value={formik.values.dob} 
+            onChange={formik.handleChange}
+            onFocus={handleDobFocus}
+            className={getInputClasses("dob")}
+            max={new Date().toISOString().split('T')[0]}
+          />
         </div>
 
         <div className="space-y-2 col-span-2">
@@ -109,15 +136,13 @@ export default function BasicDetails({ formik }: Props) {
           <Select value={formik.values.bloodGroup} onValueChange={(v) => formik.setFieldValue("bloodGroup", v)}>
             <SelectTrigger className={getSelectClasses("bloodGroup")}><SelectValue placeholder="Select" /></SelectTrigger>
             <SelectContent>
-              {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((bg) => (
+              {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-","Unknown / Not Provided"].map((bg) => (
                 <SelectItem key={bg} value={bg}>{bg}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
       </div>
-
-      {/* <hr className="my-6 border-gray-300" /> */}
     </section>
   )
 }
