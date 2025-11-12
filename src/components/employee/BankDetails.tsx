@@ -16,8 +16,7 @@ export default function BankDetails({ formik }: Props) {
       : "h-11"
   }
 
-  const getUploadClasses = (fieldName: string) => {
-    const hasFile = formik.values[fieldName]
+  const getUploadClasses = (hasFile: boolean) => {
     return hasFile
       ? "h-11 w-full text-sm text-blue-900 bg-blue-50 border border-blue-300 rounded-md cursor-pointer focus:outline-none file:h-full file:border-0 file:bg-blue-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-200"
       : "h-11 w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none file:h-full file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-200"
@@ -90,17 +89,6 @@ export default function BankDetails({ formik }: Props) {
             className={getInputClasses("branchName")}
           />
         </div>
-
-        {/* PAN Number */}
-        <div className="space-y-2">
-          <Label className="font-medium">PAN Number</Label>
-          <Input
-            name="bankPanNumber"
-            value={formik.values.bankPanNumber}
-            onChange={formik.handleChange}
-            className={getInputClasses("bankPanNumber")}
-          />
-        </div>
       </div>
 
       <hr className="my-6 border-gray-300" />
@@ -123,42 +111,54 @@ export default function BankDetails({ formik }: Props) {
                 const file = event.currentTarget.files?.[0]
                 formik.setFieldValue("photo", file)
               }}
-              className={getUploadClasses("photo")}
+              className={getUploadClasses(!!formik.values.photo)}
             />
           </div>
-
-          {formik.values.photo && (
-            <p className="text-sm text-gray-500">
-              Selected: {formik.values.photo.name}
-            </p>
-          )}
+          <p className="text-xs text-gray-500 mb-1">
+            Accepted formats: JPG, PNG, SVG
+          </p>
+          
         </div>
 
-        {/* Aadhaar Number */}
+        {/* Aadhaar Upload */}
         <div className="space-y-2">
-          <Label className="font-medium">Aadhaar Number</Label>
-          <Input
-            name="aadhaarNumber"
-            value={formik.values.aadhaarNumber}
-            onChange={(e) =>
-              formik.setFieldValue(
-                "aadhaarNumber",
-                e.target.value.replace(/\D/g, "")
-              )
-            }
-            className={getInputClasses("aadhaarNumber")}
-          />
+          <Label className="font-medium">Aadhaar Card</Label>
+          <div className="relative">
+            <input
+              type="file"
+              name="aadhaarDocument"
+              accept=".pdf,.png,.jpg,.jpeg"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const file = event.currentTarget.files?.[0]
+                formik.setFieldValue("aadhaarDocument", file)
+              }}
+              className={getUploadClasses(!!formik.values.aadhaarDocument)}
+            />
+          </div>
+          <p className="text-xs text-gray-500 mb-1">
+            Accepted formats: PDF, JPG, PNG
+          </p>
+         
         </div>
 
-        {/* PAN Card Number */}
+        {/* PAN Upload */}
         <div className="space-y-2">
-          <Label className="font-medium">PAN Card Number</Label>
-          <Input
-            name="panCardNumber"
-            value={formik.values.panCardNumber}
-            onChange={formik.handleChange}
-            className={getInputClasses("panCardNumber")}
-          />
+          <Label className="font-medium">PAN Card</Label>
+          <div className="relative">
+            <input
+              type="file"
+              name="panDocument"
+              accept=".pdf,.png,.jpg,.jpeg"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const file = event.currentTarget.files?.[0]
+                formik.setFieldValue("panDocument", file)
+              }}
+              className={getUploadClasses(!!formik.values.panDocument)}
+            />
+          </div>
+          <p className="text-xs text-gray-500 mb-1">
+            Accepted formats: PDF, JPG, PNG
+          </p>
         </div>
 
         {/* Passport Number */}

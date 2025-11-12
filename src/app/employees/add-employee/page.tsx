@@ -144,8 +144,8 @@ export default function AddEmployeeWizardPage() {
     const validateStep = async (step: number) => {
         try {
             if (step === 0) await Step1Schema.validate(formik.values, { abortEarly: false })
-            if (step === 2) await Step2Schema.validate(formik.values, { abortEarly: false })
-            if (step === 3) await Step3Schema.validate(formik.values, { abortEarly: false })
+            if (step === 1) await Step2Schema.validate(formik.values, { abortEarly: false })
+            if (step === 2) await Step3Schema.validate(formik.values, { abortEarly: false })
             // clear step-related errors
             formik.setErrors({})
             return true
@@ -196,7 +196,7 @@ export default function AddEmployeeWizardPage() {
 
 
     // header titles
-    const titles = ["Basic Details", "Educational Details", "Employee Details", "Bank Details", "Additional Info"]
+    const titles = ["Basic Details", "Employee Details", "Bank & ID Details","Educational Details", "Additional Info"]
 
     return (
         <div className="p-6">
@@ -209,7 +209,7 @@ export default function AddEmployeeWizardPage() {
                     <div className="space-y-6">
                         {/* Top stepper using shadcn Tabs but we will control switching */}
                         <Tabs value={String(activeIndex)}>
-                            <TabsList className="grid grid-cols-5 gap-4 mb-12 bg-gray-50 p-4 rounded-lg">
+                            <TabsList className="grid grid-cols-5 gap-2 mb-12 bg-gray-50 p-3 rounded-lg">
                                 {titles.map((t, idx) => {
                                     const disabled = idx > activeIndex
                                     const active = idx === activeIndex
@@ -235,9 +235,9 @@ export default function AddEmployeeWizardPage() {
                           `}
                                                 >
                                                     {idx === 0 && <User className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
-                                                    {idx === 1 && <School className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
-                                                    {idx === 2 && <Briefcase className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
-                                                    {idx === 3 && <CreditCard className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
+                                                    {idx === 1 && <Briefcase className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
+                                                    {idx === 2 && <CreditCard className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
+                                                    {idx === 3 && <School className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
                                                     {idx === 4 && <CheckCircle className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-800"}`} />}
                                                     {/* {idx === 5 && <CheckCircle className={`w-5 h-5 ${active || completed ? "text-white" : "text-gray-500"}`} />} */}
                                                 </div>
@@ -272,9 +272,9 @@ export default function AddEmployeeWizardPage() {
                         {/* Content */}
                         <div className="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
                             {activeIndex === 0 && <BasicDetails formik={formik} />}
-                            {activeIndex === 1 && <EducationDetails formik={formik} />}
-                            {activeIndex === 2 && <EmployeeDetails formik={formik} />}
-                            {activeIndex === 3 && <BankDetails formik={formik} />}
+                            {activeIndex === 1 && <EmployeeDetails formik={formik} />}
+                            {activeIndex === 2 && <BankDetails formik={formik} />}
+                            {activeIndex === 3 && <EducationDetails formik={formik} />}
                             {activeIndex === 4 && <AdditionalInfo formik={formik} />}
                             
                         </div>

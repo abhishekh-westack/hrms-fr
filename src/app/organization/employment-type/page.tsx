@@ -66,7 +66,7 @@ export default function EmploymentTypesPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              Employment Types
+              Employment Type
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
               Manage employment types like Full-Time, Part-Time, and Intern.
@@ -81,7 +81,7 @@ export default function EmploymentTypesPage() {
               setIsDialogOpen(true)
             }}
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Type
+            <Plus className="w-4 h-4 mr-2" /> Add New
           </Button>
         </div>
 

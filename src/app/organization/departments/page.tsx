@@ -81,7 +81,7 @@ export default function DepartmentsPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Departments</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Department</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Manage your organizational departments
             </p>
@@ -200,7 +200,7 @@ export default function DepartmentsPage() {
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold">
-              Create New Department
+              Add New Department
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
               Add a new department to your organization.
@@ -228,7 +228,7 @@ export default function DepartmentsPage() {
               onClick={handleCreateDepartment}
               disabled={!departmentName.trim()}
             >
-              Create Department
+              Add Department
             </Button>
           </DialogFooter>
         </DialogContent>

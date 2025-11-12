@@ -83,7 +83,7 @@ export default function DesignationsPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Designations</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Designation</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Manage designation roles and assignments
             </p>
@@ -185,7 +185,7 @@ export default function DesignationsPage() {
       {/* ===== FOOTER (Always at Bottom) ===== */}
       <div className="p-4 bg-slate-50/40 flex items-center justify-between text-sm text-muted-foreground border-t border-gray-200">
         <div>
-          Showing {designations.length} of {designations.length} designations
+          Showing {designations.length} of {designations.length} designation
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" disabled>
@@ -202,7 +202,7 @@ export default function DesignationsPage() {
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold">
-              Create New Designation
+              Add New Designation
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
               Add a new role/designation to your organization.
@@ -230,7 +230,7 @@ export default function DesignationsPage() {
               onClick={handleCreateDesignation}
               disabled={!designationName.trim()}
             >
-              Create Designation
+              Add Designation
             </Button>
           </DialogFooter>
         </DialogContent>

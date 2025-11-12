@@ -49,12 +49,12 @@ export default function BranchFormDialog({
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
-            {mode === "create" ? "Add New Branch" : "Edit Branch"}
+            {mode === "create" ? "Create New Branch" : "Edit Branch"}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
             {mode === "create"
-              ? "Add a new academic branch such as IT, Mechanical, or Civil."
-              : "Edit the selected branch name below."}
+              ? "Add a new branch to your organization. Fill in the details below."
+              : "Update the branch name and save your changes."}
           </DialogDescription>
         </DialogHeader>
 
@@ -65,7 +65,7 @@ export default function BranchFormDialog({
             </Label>
             <Input
               id="branch-name"
-              placeholder="e.g., Information Technology"
+              placeholder="e.g., Pune Office"
               value={branchName}
               onChange={(e) => setBranchName(e.target.value)}
               className="w-full focus:ring-blue-500 focus:border-transparent"
@@ -74,7 +74,13 @@ export default function BranchFormDialog({
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              onOpenChange(false)
+              setBranchName("")
+            }}
+          >
             Cancel
           </Button>
           <Button
