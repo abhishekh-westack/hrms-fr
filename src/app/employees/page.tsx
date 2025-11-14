@@ -221,7 +221,7 @@ export default function EmployeesTable() {
         </div>
       </div>
 
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
 
       {/* === Deactivate Alert Dialog === */}
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
