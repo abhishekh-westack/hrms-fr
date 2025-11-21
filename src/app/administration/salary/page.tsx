@@ -1,10 +1,8 @@
 "use client"
 
 import { Fragment, useMemo, useState } from "react"
-import { format } from "date-fns"
 
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 
 import {
@@ -25,21 +23,7 @@ import {
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-
-import { cn } from "@/lib/utils"
 import { employeeTransactions } from "@/data/transactions"
-import SalaryUpdate from "@/components/salary/SalaryUpdate";
 
 import {
     Search,
@@ -145,12 +129,6 @@ const employees = [
 
 export default function SalaryPaymentsTable() {
     const [searchTerm, setSearchTerm] = useState("")
-    const [showSalaryId, setShowSalaryId] = useState<number | null>(null)
-    const [expandedId, setExpandedId] = useState<number | null>(null)
-    const [openSalaryDialog, setOpenSalaryDialog] = useState(false);
-
-
-    const [openModalFor, setOpenModalFor] = useState<number | null>(null)
     const [dateRange, setDateRange] = useState<any>({
         from: null,
         to: null,
@@ -196,7 +174,7 @@ export default function SalaryPaymentsTable() {
             </div>
 
             {/* TABLE */}
-            <div className="bg-white border rounded-2xl shadow-sm border-gray-200 overflow-hidden">
+            <div className="bg-white border rounded-xl shadow-sm border-gray-200 overflow-hidden">
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader className=" ">
@@ -267,10 +245,11 @@ export default function SalaryPaymentsTable() {
                                                                     variant="ghost"
                                                                     size="icon"
                                                                     className="h-8 w-8 rounded-full text-blue-600 hover:bg-blue-50 hover:text-blue-700"
-                                                                    onClick={() => setOpenSalaryDialog(true)}
+                                                                    onClick={() => router.push("/administration/salary/update")}
                                                                 >
                                                                     <Pencil className="h-4 w-4" />
                                                                 </Button>
+
 
                                                             </TooltipTrigger>
                                                             <TooltipContent>Update</TooltipContent>
@@ -320,10 +299,6 @@ export default function SalaryPaymentsTable() {
                         </TableBody>
                     </Table>
 
-                    <SalaryUpdate
-                        open={openSalaryDialog}
-                        onOpenChange={setOpenSalaryDialog}
-                    />
 
                 </div>
             </div>
