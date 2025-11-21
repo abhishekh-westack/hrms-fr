@@ -120,7 +120,7 @@ export default function EmployeesTable() {
       </div>
 
       {/* Search + Filter + Sort Bar */}
-      <div className="flex flex-wrap gap-3 p-4">
+      <div className="flex flex-wrap gap-3 py-4">
 
         {/* Search */}
         <div className="relative w-full md:w-1/3">
@@ -163,7 +163,7 @@ export default function EmployeesTable() {
       </div>
 
       {/* TABLE */}
-      <div className="bg-white border rounded-2xl shadow-sm border-gray-200 overflow-hidden">
+      <div className="bg-white border rounded-xl shadow-sm border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
