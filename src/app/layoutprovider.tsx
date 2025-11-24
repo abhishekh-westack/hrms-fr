@@ -13,7 +13,6 @@ export default function LayoutProvider({
 }) {
   const pathname = usePathname();
 
-
   const [pageLoading, setPageLoading] = useState(false);
 
   useEffect(() => {
@@ -22,15 +21,28 @@ export default function LayoutProvider({
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  const isLoginPage = pathname === "/login";
-   const isSignUpPage = pathname === "/signup";
+  const isAuthPage = pathname === "/login" || pathname === "/signup";
 
-  // --- LOGIN PAGE: No sidebar, no navbar ---
-  if (isLoginPage || isSignUpPage) {
-    return <>{children}</>;
+  // -------------------------------------------------------
+  // AUTH PAGES → FULL SCREEN LOADER (no sidebar/nav)
+  // -------------------------------------------------------
+  if (isAuthPage) {
+    return (
+      <div className="min-h-screen relative bg-gray-50">
+        {pageLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white z-50">
+            <Loader />
+          </div>
+        )}
+
+        {!pageLoading && children}
+      </div>
+    );
   }
 
-  // --- NORMAL PAGES ---
+  // -------------------------------------------------------
+  // NORMAL PAGES → SIDEBAR + NAVBAR + MAIN LOADER
+  // -------------------------------------------------------
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -42,7 +54,7 @@ export default function LayoutProvider({
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <AppNavbar />
 
-        <main className="p-6 relative min-h-[calc(100vh-64px)]">
+        <main className="relative p-6 min-h-[calc(100vh-64px)]">
           {pageLoading && (
             <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-50">
               <Loader />
