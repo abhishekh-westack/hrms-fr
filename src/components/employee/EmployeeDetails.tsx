@@ -1,15 +1,21 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
 
 type Props = {
   formik: any
 }
 
 export default function EmployeeDetails({ formik }: Props) {
+  const [openCalendar, setOpenCalendar] = useState(false)
   const getInputClasses = (fieldName: string) => {
     const hasValue = formik.values[fieldName as keyof typeof formik.values]
     return hasValue
@@ -29,9 +35,42 @@ export default function EmployeeDetails({ formik }: Props) {
       <h3 className="text-lg font-semibold text-gray-500 mb-4">Employee Details:</h3>
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label className="font-medium">Date of Joining<span className="text-red-500">*</span></Label>
-          <Input type="date" name="doj" value={formik.values.doj} onChange={formik.handleChange} className={getInputClasses("doj")} />
+          <Label className="font-medium">
+            Date of Joining <span className="text-red-500">*</span>
+          </Label>
+
+          <Popover open={openCalendar} onOpenChange={setOpenCalendar}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "w-full flex items-center justify-between px-3 h-11 rounded-md border border-gray-300 text-left",
+                  !formik.values.doj ? "text-gray-400" : "text-blue-900 bg-blue-50 border-blue-300",
+                )}
+              >
+                <span>
+                  {formik.values.doj
+                    ? format(new Date(formik.values.doj), "dd MMM yyyy")
+                    : "Select date"}
+                </span>
+                <CalendarIcon className="w-4 h-4 opacity-70" />
+              </button>
+            </PopoverTrigger>
+
+            <PopoverContent className="w-auto p-0 bg-white shadow-xl border border-gray-300">
+              <Calendar
+                mode="single"
+                selected={formik.values.doj ? new Date(formik.values.doj) : undefined}
+                onSelect={(date) => {
+                  formik.setFieldValue("doj", date)
+                  setOpenCalendar(false)
+                }}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
+
 
         <div className="space-y-2">
           <Label className="font-medium">Employee Type<span className="text-red-500">*</span></Label>
