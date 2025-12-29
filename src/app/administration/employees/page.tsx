@@ -34,23 +34,10 @@ import { MoreVertical, Plus, Search } from "lucide-react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
-import {
-  showAllEmployees,
-  showAllDepartments,
-  showAllDesignations,
-} from "@/network/Api"
+import { showAllEmployees } from "@/network/Api"
+import Loader from "@/components/ui/loader"
 
 /* ================= TYPES ================= */
-
-type Department = {
-  id: string
-  name: string
-}
-
-type Designation = {
-  id: string
-  name: string
-}
 
 type EmployeeRow = {
   id: number
@@ -68,8 +55,6 @@ export default function EmployeesTable() {
   const router = useRouter()
 
   const [employees, setEmployees] = useState<EmployeeRow[]>([])
-  const [departments, setDepartments] = useState<Department[]>([])
-  const [designations, setDesignations] = useState<Designation[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(true)
   const [isAlertOpen, setIsAlertOpen] = useState(false)
@@ -80,51 +65,23 @@ export default function EmployeesTable() {
 
   const fetchData = async () => {
     try {
-      const [empRes, deptRes, desigRes]: any = await Promise.all([
-        showAllEmployees(),
-        showAllDepartments(),
-        showAllDesignations(),
-      ])
+      const res: any = await showAllEmployees()
 
-      const deptList = deptRes?.data || []
-      const desigList = desigRes?.data || []
-
-      setDepartments(deptList)
-      setDesignations(desigList)
-
-      const mappedEmployees: EmployeeRow[] = empRes?.data.map((emp: any) => {
-        const departmentId = Array.isArray(emp.department)
-          ? emp.department[0]
-          : emp.department || emp.department_id || emp.department_uuid
-
-        const departmentName =
-          deptList.find((d: any) => d.id === departmentId)?.name || "—"
-
-        const designationId = Array.isArray(emp.designation)
-          ? emp.designation[0]
-          : emp.designation ||
-            emp.designation_id ||
-            emp.designation_uuid
-
-        const designationName =
-          desigList.find((d: any) => d.id === designationId)?.name || "—"
-
-        return {
-          id: emp.emp_id,
-          name: [emp.first_name, emp.middle_name, emp.last_name]
-            .filter(Boolean)
-            .join(" "),
-          department: departmentName,
-          designation: designationName,
-          doj: new Date(emp.created_at).toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          }),
-          branch: "WESTACK SOLUTIONS LLP",
-          status: emp.is_active ? "Active" : "Inactive",
-        }
-      })
+      const mappedEmployees: EmployeeRow[] = res?.data.map((emp: any) => ({
+        id: emp.emp_id,
+        name: [emp.first_name, emp.middle_name, emp.last_name]
+          .filter(Boolean)
+          .join(" "),
+        department: emp.department || "N/A",
+        designation: emp.designation || "N/A",
+        doj: new Date(emp.created_at).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+        branch: emp.worklocation || "WESTACK SOLUTIONS LLP",
+        status: emp.is_active ? "Active" : "Inactive",
+      }))
 
       setEmployees(mappedEmployees)
     } catch (error) {
@@ -176,8 +133,8 @@ export default function EmployeesTable() {
 
   if (loading) {
     return (
-      <div className="p-10 text-center text-muted-foreground">
-        Loading employees...
+      <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-50">
+        <Loader />
       </div>
     )
   }
@@ -186,7 +143,6 @@ export default function EmployeesTable() {
 
   return (
     <div className="w-full space-y-4 px-4">
-
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <div>
@@ -227,8 +183,7 @@ export default function EmployeesTable() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-gray-100 h-[56px] bg-blue-100">
-                <TableHead className="text-center w-20">ID</TableHead>
-                <TableHead>Employees</TableHead>
+                <TableHead className="pl-8">Employees</TableHead>
                 <TableHead>Department</TableHead>
                 <TableHead>Designation</TableHead>
                 <TableHead>Date Of Joining</TableHead>
@@ -244,12 +199,8 @@ export default function EmployeesTable() {
                   key={row.id}
                   className="hover:bg-slate-50/40 h-[76px] border-gray-100"
                 >
-                  <TableCell className="text-center font-semibold text-gray-700">
-                    {row.id}
-                  </TableCell>
-
                   <TableCell>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 pl-2">
                       <Avatar className="h-9 w-9 ring-2 ring-gray-100">
                         <AvatarFallback>
                           {row.name
@@ -287,11 +238,10 @@ export default function EmployeesTable() {
 
                   <TableCell className="text-center">
                     <Badge
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        row.status === "Active"
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${row.status === "Active"
                           ? "bg-green-50 text-green-700 border-green-200"
                           : "bg-red-50 text-red-700 border-red-200"
-                      }`}
+                        }`}
                     >
                       {row.status}
                     </Badge>
